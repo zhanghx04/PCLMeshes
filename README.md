@@ -1,4 +1,4 @@
-# PCL Normals
+# PCL Meshes
 
 "Simple" code to estimate normals from point clouds using the PCL library.
 
