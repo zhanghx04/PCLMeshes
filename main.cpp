@@ -1,11 +1,13 @@
 #include <iostream>
 #include <ostream>
+#include <string.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/search/kdtree.h>
 #include <pcl/surface/gp3.h>
+#include <pcl/common/impl/io.hpp>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PCXYZ;
 typedef pcl::PointCloud<pcl::Normal> PCNormal;
@@ -18,11 +20,20 @@ typedef pcl::GreedyProjectionTriangulation<pcl::PointNormal> GPTriangle;
 int main(int argc, char** argv)
 {
   std::string plyFilename = "/home/jaired/Datasets/PointClouds/ABQ-215-1m-Meru3.ply";
-  double searchRadius = 3;
-  if (argc == 2)
+  double searchRadius = 3; // 3
+  double mu = 2.5; // 2.5
+
+  // int a1 = 2;
+  // int a2 = 3;
+
+  if (argc >= 2)
     plyFilename = std::string(argv[1]);
-  if (argc == 3)
+  if (argc >= 3)
     searchRadius = std::stod(argv[2]);
+    // searchRadius = std::stod(argv[2]);
+  if (argc >= 4)
+    // mu = std::stod(argv[3]);
+    mu = std::stod(argv[3]);
 
   PCXYZ::Ptr cloud(new PCXYZ);
 
@@ -69,7 +80,7 @@ int main(int argc, char** argv)
   gp3.setSearchRadius(searchRadius);
 
   // Set "typical" values for parameters
-  gp3.setMu(2.5);
+  gp3.setMu(mu);
   gp3.setMaximumNearestNeighbors (100);
   gp3.setMaximumSurfaceAngle(M_PI/4); // 45 degrees
   gp3.setMinimumAngle(M_PI/18); // 10 degrees
@@ -83,7 +94,14 @@ int main(int argc, char** argv)
   gp3.reconstruct(triangles);
   std::cout << "done." << std::endl;
 
-  pcl::io::savePLYFile("mesh.ply", triangles);
+  // std::string a1_str = std::to_string (a1);
+  // a1_str.erase ( a1_str.find_last_not_of('.') + 1, std::string::npos );
+  // std::string a2_str = std::to_string (180/a2);
+  // a2_str.erase ( a2_str.find_last_not_of('.') + 1, std::string::npos );
+
+  std::string output_filename = "pcl_mu" + std::to_string(mu) + "_maxNeighbor" + std::to_string(100) + ".ply" ;
+
+  pcl::io::savePLYFile( output_filename, triangles);
 
   return 0;
 }
