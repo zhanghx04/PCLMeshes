@@ -127,7 +127,9 @@ int main(int argc, char** argv)
   std::string filename = plyFilename.substr(2, plyFilename.length() - 6);
   std::string normalConsis = normal_consistency ? "True" : "False";
 
-  std::string output_filename = "./checkpoint/" + filename +
+  
+
+  std::string output_filename = "./checkpoint/" + filename + "/" + filename +
                                 "_searchR" + a1_str +
                                 "_mu" + a2_str +
                                 "_maxNeighbor" + a3_str + 

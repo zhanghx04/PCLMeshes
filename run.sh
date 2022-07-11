@@ -10,9 +10,12 @@ normal_consistency=0    # 0-false 1-true
 
 # ply_file_name=./courthouse-normals-10-thins.ply
 # ply_file_name=./ABQ215full_normals.ply
-ply_file_name=./ABQ215_courthouse_normals.ply
+# ply_file_name=./ABQ215_courthouse_normals.ply
+ply_file_name=./triceratops.ply
 
-method=1
+method=2
+
+python create_folder.py ${ply_file_name}
 
 if [[ $method -eq 1 ]]
 then
